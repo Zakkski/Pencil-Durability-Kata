@@ -8,7 +8,10 @@ Style/SymbolArray:
   Enabled: false
 
 Style/Documentation:
-    Enabled: false
+  Enabled: false
 
 Metrics/LineLength:
-      Enabled: false
+  Enabled: false
+
+Style/ConditionalAssignment:
+  Enabled: false
