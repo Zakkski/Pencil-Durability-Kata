@@ -1,9 +1,10 @@
 class Pencil
-  attr_reader :durability
+  attr_reader :durability, :length
 
   def initialize(attributes = {})
     @durability = attributes[:durability] || 10
-
+    @max_durability = @durability
+    @length = attributes[:length] || 2
   end
 
   def write(text, input)
@@ -11,6 +12,12 @@ class Pencil
     text + letters
   end
 
+  def sharpen
+    unless @length == 0
+      @length -= 1
+      @durability = @max_durability
+    end
+  end
 
   private
 
@@ -26,5 +33,4 @@ class Pencil
   def capital_letter?(char)
     char == char.upcase
   end
-
 end

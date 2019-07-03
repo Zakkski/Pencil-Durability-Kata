@@ -11,6 +11,12 @@ describe 'Pencil' do
     end
   end
 
+  describe '#length' do
+    it 'should return length of the pencil' do
+      expect(Pencil.new).to respond_to :length
+    end
+  end
+
   describe '#write' do
     before(:each) do
       @pencil = Pencil.new(durability: 5)
@@ -19,10 +25,6 @@ describe 'Pencil' do
     it 'should be able to write text to a paper' do
       expect(@pencil.write("", "world")).to eq("world")
     end
-
-    # it 'should assume every input is that start of a new word (add a space before it begins)' do
-    #   expect(@pencil.write("Hello", "World")).to eq("Hello World")
-    # end
 
     it 'should only be able to write characters if durability is greater than 0' do
       expect(@pencil.write("", "worlds")).to eq("world ")
@@ -36,6 +38,28 @@ describe 'Pencil' do
     it 'should lose durability faster for capital letters' do
       @pencil.write("", "TT")
       expect(@pencil.durability).to eq 1
+    end
+  end
+
+  describe '#sharpen' do
+    before(:each) do
+      @pencil = Pencil.new(durability: 5, length: 1)
+      @pencil.write("", "empty")
+      @pencil.sharpen
+    end
+
+    it 'should refill durability to starting value' do
+      expect(@pencil.durability).to eq 5
+    end
+
+    it 'should reduce the length of the pencil when sharpened' do
+      expect(@pencil.length).to eq 0
+    end
+
+    it 'shouldn\'t sharpen the pencil if the length is 0' do
+      @pencil.write("", "empty")
+      @pencil.sharpen
+      expect(@pencil.durability).to eq 0
     end
   end
 end
