@@ -7,16 +7,14 @@ class Pencil
   end
 
   def write(text, input)
-    letters = input.split('').map { |letter| write_letter(letter) }.join('')
+    letters = input.split('').map { |char| write_char(char) }.join('')
     text + letters
   end
 
-  def write_letter(letter)
+  def write_char(char)
     return " " if @durability.zero?
-
-    @durability -= 1
-    return letter
-    # if letter =~ /\s/
+    @durability -= 1 unless char.match?(/\s/)
+    char
   end
 
 end
