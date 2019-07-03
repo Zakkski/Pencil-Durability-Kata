@@ -11,10 +11,20 @@ class Pencil
     text + letters
   end
 
+
+  private
+
   def write_char(char)
     return " " if @durability.zero?
-    @durability -= 1 unless char.match?(/\s/)
+
+    unless char.match?(/\s/)
+      capital_letter?(char) ? @durability -= 2 : @durability -= 1
+    end
     char
+  end
+
+  def capital_letter?(char)
+    char == char.upcase
   end
 
 end

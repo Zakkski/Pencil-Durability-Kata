@@ -32,5 +32,10 @@ describe 'Pencil' do
       @pencil.write("", "t o o")
       expect(@pencil.durability).to eq 2
     end
+
+    it 'should lose durability faster for capital letters' do
+      @pencil.write("", "TT")
+      expect(@pencil.durability).to eq 1
+    end
   end
 end
