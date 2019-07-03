@@ -17,6 +17,12 @@ describe 'Pencil' do
     end
   end
 
+  describe '#eraser' do
+    it 'should return eraser of the pencil' do
+      expect(Pencil.new).to respond_to :eraser
+    end
+  end
+
   describe '#write' do
     before(:each) do
       @pencil = Pencil.new(durability: 5)
@@ -60,6 +66,28 @@ describe 'Pencil' do
       @pencil.write("", "empty")
       @pencil.sharpen
       expect(@pencil.durability).to eq 0
+    end
+  end
+
+  describe '#erase' do
+    text1 = "Whatcha gonna do when the chips are down, now      the chips are down?"
+    text2 = "Whatcha gonna do when the chips are down, now that the chips are     ?"
+    text3 = "Whatcha gonna do when the chips are down, now that the c     are down?"
+    before(:each) do
+      @pencil = Pencil.new(eraser: 4)
+      @start_text = "Whatcha gonna do when the chips are down, now that the chips are down?"
+    end
+
+    it 'should erase the an input word' do
+      expect(@pencil.erase(@start_text, "that")).to eq(text1)
+    end
+
+    it 'should erase last iteration of word' do
+      expect(@pencil.erase(@start_text, "down")).to eq(text2)
+    end
+
+    it 'should stop erasing when eraser runs out' do
+      expect(@pencil.erase(@start_text, "chips")).to eq(text3)
     end
   end
 end
