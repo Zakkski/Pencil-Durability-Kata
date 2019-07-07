@@ -23,6 +23,12 @@ describe 'Pencil' do
     end
   end
 
+  describe '#edit_spots' do
+    it 'should return an array of editable spots' do
+      expect(Pencil.new).to respond_to :edit_spots
+    end
+  end
+
   describe '#write' do
     before(:each) do
       @pencil = Pencil.new(durability: 5)
@@ -82,6 +88,7 @@ describe 'Pencil' do
       expect(@pencil.erase(@start_text, "that")).to eq(text1)
     end
 
+
     it 'should erase last iteration of word' do
       expect(@pencil.erase(@start_text, "down")).to eq(text2)
     end
@@ -89,5 +96,62 @@ describe 'Pencil' do
     it 'should stop erasing when eraser runs out' do
       expect(@pencil.erase(@start_text, "chips")).to eq(text3)
     end
+
+    it 'should add the erase index to edit_spots' do
+      @pencil.erase(@start_text, "Whatcha")
+      @pencil.erase(@start_text, "gonna")
+      expect(@pencil.edit_spots).to eq [0, 8]
+    end
+  end
+
+  describe '#edit' do
+    text1 = "Whatcha gonna do when the chips are down, now AAAA the chips are down?"
+    text2 = "Whatcha gonna do when the chips are down, now orphe@@e chips are down?"
+    text3 = "Whatcha gonna do when the chips are down, now corsethe chips are down?"
+
+    before(:each) do
+      @pencil = Pencil.new(eraser: 4)
+      text = "Whatcha gonna do when the chips are down, now that the chips are down?"
+      @start_text = @pencil.erase(text, "that")
+    end
+
+    it 'should replace a blank spot with the user input' do
+      expect(@pencil.edit(@start_text, 'AAAA', 0)).to eq text1
+    end
+
+    it 'should replace letter collisions with @' do
+      expect(@pencil.edit(@start_text, 'orpheus', 0)).to eq text2
+    end
+
+    it 'should return the old letter if the collisions are the same' do
+      expect(@pencil.edit(@start_text, 'corset', 0)).to eq text3
+    end
+
+    it 'should only make edits while it has durability left' do
+      low_pencil = Pencil.new(durability: 3, eraser: 4)
+      text = "Whatcha gonna do when the chips are down, now that the chips are down?"
+      final_text = "Whatcha gonna do when the chips are down, now Ti   the chips are down?"
+      start_text = low_pencil.erase(text, "that")
+      expect(low_pencil.edit(start_text, "Time", 0)).to eq final_text
+    end
   end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# end
