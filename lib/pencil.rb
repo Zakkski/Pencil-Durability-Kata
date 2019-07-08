@@ -23,23 +23,35 @@ class Pencil
   def erase(text, input)
     @edit_spots << text.rindex(input)
     words = text.split(/\b/).reverse
-    word_id = words.find_index { |word| word == input }
-    erased_word = words[word_id].split('')
-                                .reverse
-                                .map { |char| erase_char(char) }
-                                .reverse
-                                .join('')
-    words[word_id] = erased_word
+    begin
+      word_id = words.find_index { |word| word == input }
+      raise TypeError, "Couldn't find word to erase" if word_id.nil?
+      erased_word = words[word_id].split('')
+                                  .reverse
+                                  .map { |char| erase_char(char) }
+                                  .reverse
+                                  .join('')
+      words[word_id] = erased_word
+    rescue
+      puts "That word could not be found"
+      gets.chomp
+    end
     words.reverse.join('')
   end
 
   def edit(text, input, edit_spot)
-    letters = text.split('')
-    start_index = @edit_spots[edit_spot]
-    (input.length).times do |id|
-      new_letter = input[id]
-      old_letter = letters[start_index + id]
-      letters[start_index + id] = edit_letter(new_letter, old_letter)
+    begin
+      letters = text.split('')
+      start_index = @edit_spots[edit_spot]
+      raise TypeError, "Improper edit spot" if start_index.nil?
+      (input.length).times do |id|
+        new_letter = input[id]
+        old_letter = letters[start_index + id]
+        letters[start_index + id] = edit_letter(new_letter, old_letter)
+      end
+    rescue
+      puts "That is not a valid number"
+      gets.chomp
     end
     letters.join("")
   end
