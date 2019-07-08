@@ -8,7 +8,9 @@ To use app:
 2. Enter file location
 3. Run ```ruby app.rb``` in your terminal to run the application
 
-You will be presented with a number of options that control what you can do with the pencil (write, erase, edit, sharpen). You can change the different qualities of the pencil in the app.rb file.
+You will be presented with a number of options that control what you can do with the pencil (write, erase, edit, sharpen). 
+
+### You can change the different qualities of the pencil in the app.rb file.
 
 **Durability**: how many characters the pencil can write (this will also be the number that is returned to when the pencil is sharpened)
 
